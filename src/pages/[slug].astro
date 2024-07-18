@@ -1,0 +1,65 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getCar } from "../services/api";
+export const prerender = false;
+
+const { slug } = Astro.params;
+
+if (!slug) {
+  Astro.redirect("/");
+  return;
+}
+
+const data = await getCar(slug).then((res) => res?.fields);
+---
+
+<Layout title={`Car ${data?.name || ""}`}>
+  {
+    data ? (
+      <div class="max-w-[80ch] flex flex-col items-center self-center">
+        <h2 class="mt-4 text-2xl font-bold">{data.name}</h2>
+        <p class="mt-4">{data.description}</p>
+        <div class="flex flex-col mt-1">
+          {Array.isArray(data.images) && data.images.map((image) => (
+            <div class="relative">
+              <img
+                src={image.fields.file.url}
+                alt={data?.name as string}
+                class="h-auto transition-transform duration-300 transform group-hover:scale-105 cursor-pointer"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    ) : (
+      <div class="flex flex-col justify-center items-center">
+        <h1 class="text-white text-3xl text-center">
+          Esta págino no existe...
+        </h1>
+        <img src="https://midu.dev/images/this-is-fine-404.gif" />
+      </div>
+    )
+  }
+</Layout>
+
+<style>
+  img {
+    view-timeline-name: --reveal;
+    animation-name: show;
+    animation-fill-mode: both;
+    animation-timeline: --reveal;
+    animation-range: entry 25% cover 50%;
+    mask-image: linear-gradient(white 90%, transparent);
+  }
+
+  @keyframes show {
+    from {
+      opacity: 0;
+      scale: 10%;
+    }
+    to {
+      opacity: 1;
+      scale: 100%;
+    }
+  }
+</style>

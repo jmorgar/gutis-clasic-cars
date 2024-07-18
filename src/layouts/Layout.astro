@@ -1,0 +1,55 @@
+---
+import "@fontsource-variable/petrona";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Home from "../components/Home.astro";
+import { getCars } from "../services/api";
+import { ViewTransitions } from "astro:transitions";
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Astro description" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <ViewTransitions />
+  </head>
+  <body>
+    <Home />
+    <div class="relative h-full w-full bg-white">
+      <div
+        class="absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)]"
+      >
+      </div>
+    </div>
+    <Header />
+    <slot />
+    <Footer />
+    <style is:global>
+      :root {
+        color-scheme: light;
+      }
+      html {
+        font-family: "Petrona Variable", system-ui, sans-serif;
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 1rem;
+        color: rgba(17, 17, 17, 0.9);
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        overscroll-behavior: none;
+      }
+    </style>
+  </body>
+</html>

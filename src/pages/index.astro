@@ -1,0 +1,18 @@
+---
+import Card from "../components/Card.astro";
+import Home from "../components/Home.astro";
+import Layout from "../layouts/Layout.astro";
+import { getCars } from "../services/api.js";
+
+const cars = await getCars().then((res) => {
+  return res.map((car) => {
+    return car.fields;
+  });
+});
+---
+
+<Layout title="Guti's Clasic Cars">
+  <div class="flex flex-wrap gap-4 mt-4">
+    {cars.map((car) => <Card car={car} class="w-full md:w-auto" />)}
+  </div>
+</Layout>
