@@ -1,4 +1,4 @@
-import { defineConfig } from 'astro/config';
+import { defineConfig } from "astro/config";
 import tailwind from "@astrojs/tailwind";
 
 import vercel from "@astrojs/vercel/serverless";
@@ -7,5 +7,15 @@ import vercel from "@astrojs/vercel/serverless";
 export default defineConfig({
   integrations: [tailwind()],
   output: "hybrid",
-  adapter: vercel()
+  adapter: vercel(),
+  vite: {
+    build: {
+      rollupOptions: {
+        input: {
+          main: "src/main.js",
+          images: "src/img",
+        },
+      },
+    },
+  },
 });
